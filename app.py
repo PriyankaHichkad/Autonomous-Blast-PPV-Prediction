@@ -210,6 +210,8 @@ def append_to_gsheet(client1, row_dict):
     Append one row to the Google Sheet.
     Columns match the blast log schema.
     """
+    import gspread
+    from google.oauth2.service_account import Credentials
     scope = [
             "https://spreadsheets.google.com/feeds",
             "https://www.googleapis.com/auth/drive"
