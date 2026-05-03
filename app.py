@@ -216,7 +216,7 @@ def append_to_gsheet(client, row_dict):
         #sheet   = client.open_by_key(GSHEET_ID)
         #ws      = sheet.worksheet(GSHEET_TAB)
         self.ws = client.open_by_key(GSHEET_ID).sheet1
-        headers = ws.row_values(1)
+        headers = self.ws.row_values(1)
         if not headers:
             headers = list(row_dict.keys())
             self.ws.append_row(headers)
