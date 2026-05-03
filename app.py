@@ -77,7 +77,7 @@ MODEL_PATH     = 'models/hybrid_ppv_model.pkl'
 BENCH_PATH     = 'results/model_benchmark.csv'
 GSHEET_CREDS_PATH = 'credentials/awesome-dialect-489311-u7-b7e39b74b42b.json'  # service account JSON
 GSHEET_ID      = 'https://docs.google.com/spreadsheets/d/1L7OHqkcHXqNprEslSLPSZYjfqljc06FO1qhB4WvJvgs/edit?usp=sharing'               # replace with real ID
-GSHEET_TAB     = 'BlastLog'
+GSHEET_TAB     = 'Sheet1'
 
 for d in ['results','models','credentials','plots']:
     os.makedirs(d, exist_ok=True)
@@ -228,15 +228,15 @@ def append_to_gsheet(client1, row_dict):
     if client is None:
         return False
     try:
-        #sheet   = client.open_by_key(GSHEET_ID)
-        #ws      = sheet.worksheet(GSHEET_TAB)
-        self.ws = client.open_by_key(GSHEET_ID).sheet1
-        headers = self.ws.row_values(1)
+        sheet   = client.open_by_key(GSHEET_ID)
+        ws      = sheet.worksheet(GSHEET_TAB)
+        #self.ws = client.open_by_key(GSHEET_ID).sheet1
+        headers = ws.row_values(1)
         if not headers:
             headers = list(row_dict.keys())
-            self.ws.append_row(headers)
+            ws.append_row(headers)
         row = [str(row_dict.get(h, '')) for h in headers]
-        self.ws.append_row(row)
+        ws.append_row(row)
         return True
     except Exception as e:
         return False
