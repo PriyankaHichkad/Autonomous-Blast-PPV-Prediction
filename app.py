@@ -192,8 +192,13 @@ def get_gsheet_client():
             return None
         scopes = ['https://www.googleapis.com/auth/spreadsheets',
                   'https://www.googleapis.com/auth/drive']
-        creds  = Credentials.from_service_account_file(GSHEET_CREDS_PATH,
+        #creds  = Credentials.from_service_account_file(GSHEET_CREDS_PATH,
                                                         scopes=scopes)
+        creds_dict = st.secrets["gcp_service_account"]
+
+        creds = Credentials.from_service_account_info(
+            creds_dict, scopes=scopes
+        )
         return gspread.authorize(creds)
     except Exception:
         return None
@@ -207,8 +212,9 @@ def append_to_gsheet(client, row_dict):
     if client is None:
         return False
     try:
-        sheet   = client.open_by_key(GSHEET_ID)
-        ws      = sheet.worksheet(GSHEET_TAB)
+        #sheet   = client.open_by_key(GSHEET_ID)
+        #ws      = sheet.worksheet(GSHEET_TAB)
+        self.sheet = client.open_by_key(GSHEET_ID).sheet1
         headers = ws.row_values(1)
         if not headers:
             headers = list(row_dict.keys())
