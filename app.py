@@ -225,11 +225,11 @@ def append_to_gsheet(client1, row_dict):
 
     client = gspread.authorize(creds)
 
-    #if client is None:
-        #return False
+    if client is None:
+        return False
     try:
-        sheet   = client.open_by_key(GSHEET_ID)
-        ws      = sheet.worksheet(GSHEET_TAB)
+        google_sheet   = client.open_by_key(GSHEET_ID)
+        ws      = google_sheet.worksheet(GSHEET_TAB)
         #self.ws = client.open_by_key(GSHEET_ID).sheet1
         headers = ws.row_values(1)
         if not headers:
