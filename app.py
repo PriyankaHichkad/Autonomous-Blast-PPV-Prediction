@@ -188,8 +188,8 @@ def get_gsheet_client():
     try:
         import gspread
         from google.oauth2.service_account import Credentials
-        if not os.path.exists(GSHEET_CREDS_PATH):
-            return None
+        #if not os.path.exists(GSHEET_CREDS_PATH):
+            #return None
         scope = [
             "https://spreadsheets.google.com/feeds",
             "https://www.googleapis.com/auth/drive"
