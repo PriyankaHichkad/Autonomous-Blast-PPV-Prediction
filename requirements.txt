@@ -1,0 +1,13 @@
+numpy
+pandas
+scipy
+matplotlib
+seaborn
+scikit-learn
+joblib
+pickle-mixin
+streamlit
+requests
+python-dotenv
+gspread
+google-auth
