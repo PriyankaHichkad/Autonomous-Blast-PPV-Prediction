@@ -190,14 +190,14 @@ def get_gsheet_client():
         from google.oauth2.service_account import Credentials
         if not os.path.exists(GSHEET_CREDS_PATH):
             return None
-        scopes = ['https://www.googleapis.com/auth/spreadsheets',
+        scope = ['https://www.googleapis.com/auth/spreadsheets',
                   'https://www.googleapis.com/auth/drive']
         #creds  = Credentials.from_service_account_file(GSHEET_CREDS_PATH,
-                                                        scopes=scopes)
+                                                        scopes=scope)
         creds_dict = st.secrets["gcp_service_account"]
 
         creds = Credentials.from_service_account_info(
-            creds_dict, scopes=scopes
+            creds_dict, scopes=scope
         )
         return gspread.authorize(creds)
     except Exception:
