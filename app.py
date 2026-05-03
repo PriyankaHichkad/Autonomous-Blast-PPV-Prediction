@@ -205,11 +205,25 @@ def get_gsheet_client():
         return None
 
 
-def append_to_gsheet(client, row_dict):
+def append_to_gsheet(client1, row_dict):
     """
     Append one row to the Google Sheet.
     Columns match the blast log schema.
     """
+    scope = [
+            "https://spreadsheets.google.com/feeds",
+            "https://www.googleapis.com/auth/drive"
+        ]
+
+        # Read from Streamlit secrets
+        creds_dict = st.secrets["gcp_service_account"]
+
+        creds = Credentials.from_service_account_info(
+            creds_dict, scopes=scope
+        )
+
+        client = gspread.authorize(creds)
+
     if client is None:
         return False
     try:
