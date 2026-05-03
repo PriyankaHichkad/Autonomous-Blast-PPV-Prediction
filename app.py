@@ -76,7 +76,7 @@ DATA_PATH      = 'results/live_blast_log.csv'      # local storage
 MODEL_PATH     = 'models/hybrid_ppv_model.pkl'
 BENCH_PATH     = 'results/model_benchmark.csv'
 GSHEET_CREDS_PATH = 'credentials/awesome-dialect-489311-u7-b7e39b74b42b.json'  # service account JSON
-GSHEET_ID      = 'https://docs.google.com/spreadsheets/d/1L7OHqkcHXqNprEslSLPSZYjfqljc06FO1qhB4WvJvgs/edit?gid=0#gid=0'               # replace with real ID
+GSHEET_ID      = 'https://docs.google.com/spreadsheets/d/1L7OHqkcHXqNprEslSLPSZYjfqljc06FO1qhB4WvJvgs/edit?usp=sharing'               # replace with real ID
 GSHEET_TAB     = 'BlastLog'
 
 for d in ['results','models','credentials','plots']:
