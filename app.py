@@ -225,8 +225,8 @@ def append_to_gsheet(client1, row_dict):
 
     client = gspread.authorize(creds)
 
-    if client is None:
-        return False
+    #if client is None:
+        #return False
     try:
         sheet   = client.open_by_key(GSHEET_ID)
         ws      = sheet.worksheet(GSHEET_TAB)
