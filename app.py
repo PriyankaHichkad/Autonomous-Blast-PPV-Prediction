@@ -211,8 +211,6 @@ def append_to_gsheet(client, row_dict):
     Columns match the blast log schema.
     """
 
-    client = gspread.authorize(creds)
-
     if client is None:
         return False
     try:
