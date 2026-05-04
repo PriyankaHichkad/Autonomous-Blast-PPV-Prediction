@@ -76,6 +76,12 @@ C = ['#1B4F72','#E74C3C','#27AE60','#F39C12','#8E44AD','#2E86C1','#117A65',
 K_LIT = 650.0    # site transmission constant (Pal Roy, 1993; Wardha Valley)
 N_LIT = -1.4     # attenuation exponent (range: -1.2 to -1.6, Indian coal mines)
 
+# ── Import HybridPPVModel from model_utils (NOT defined here) ─────────────────
+# This guarantees pickle always records the class as 'model_utils.HybridPPVModel',
+# which means HybridPPVModel.load() works correctly from part3_ui.py or any other
+# script — the module path never changes to '__main__'.
+from model_utils import HybridPPVModel  # noqa: E402
+
 FEATURE_COLS = [
     'Distance', 'Q', 'No_of_Holes', 'Depth', 'TQ', 'SD', 'SD_TQ',
     'No_of_Rows', 'Spacing',
@@ -457,98 +463,8 @@ class FuzzyPPVPredictor:
 #  STEP 4 — HYBRID PHYSICS + ML MODEL (PROPOSED)
 # ══════════════════════════════════════════════════════════════════════════════
 
-class HybridPPVModel:
-    """
-    Physics-Informed Hybrid Random Forest Model (Proposed Architecture).
-
-    Final equation:
-        PPV_final = PPV_physics + RF(Residual_features)
-
-    where:
-        PPV_physics = K_LIT × SD^N_LIT              [USBM Eq. 3.1]
-        Residual    = PPV_actual - PPV_physics        [Eq. 3.3]
-        RF learns   the geological correction term    [Eq. 3.4]
-
-    k and n are ALWAYS non-zero constants from literature.
-    """
-
-    def __init__(self):
-        self.k = K_LIT          # always non-zero
-        self.n = N_LIT          # always non-zero
-        self.ml       = None
-        self.sc       = StandardScaler()
-        self.feat_cols= []
-        self.is_fitted = False
-        self.train_metrics = {}
-        self.test_metrics  = {}
-
-    def _phys(self, sd):
-        """PPV_physics = k × SD^n  (k≠0, n≠0 guaranteed by literature constants)."""
-        return self.k * np.clip(sd, 1e-9, None)**self.n
-
-    def fit(self, df_combined, feature_cols, test_size=0.2):
-        avail = [c for c in feature_cols if c in df_combined.columns]
-        self.feat_cols = avail
-
-        df2 = df_combined.copy()
-        df2['Physics_PPV'] = self._phys(df2['SD'].values)
-        df2['Residual']    = df2['PPV'] - df2['Physics_PPV']
-
-        valid = df2[avail + ['Residual', 'PPV', 'SD']].dropna()
-        valid = valid.loc[:, ~valid.columns.duplicated()]
-
-        X   = valid[avail].values
-        y_r = valid['Residual'].values
-        y_p = valid['PPV'].values
-        sd_ = valid['SD'].values.ravel()
-
-        X_tr, X_te, yr_tr, yr_te, yp_tr, yp_te, sd_tr, sd_te = \
-            train_test_split(X, y_r, y_p, sd_, test_size=test_size,
-                             random_state=42)
-
-        # GridSearchCV
-        print("    [Hybrid] GridSearchCV: Random Forest on residuals...")
-        param_grid = {
-            'n_estimators'    : [200, 400],
-            'max_depth'       : [8, 12, None],
-            'min_samples_leaf': [1, 2],
-        }
-        kf = KFold(n_splits=5, shuffle=True, random_state=42)
-        gs = GridSearchCV(
-            RandomForestRegressor(random_state=42, n_jobs=-1),
-            param_grid, cv=kf, scoring='r2', n_jobs=-1)
-        gs.fit(self.sc.fit_transform(X_tr), yr_tr)
-        self.ml = gs.best_estimator_
-        self.is_fitted = True
-        print(f"    [Hybrid] Best params: {gs.best_params_}  CV-R²={gs.best_score_:.4f}")
-
-        for tag, Xs, yr, yp, sd_s in [('train', X_tr, yr_tr, yp_tr, sd_tr),
-                                        ('test',  X_te, yr_te, yp_te, sd_te)]:
-            pred = self._phys(sd_s) + self.ml.predict(self.sc.transform(Xs))
-            m    = get_metrics(yp, pred, f'Hybrid RF [{tag:5s}]')
-            if tag == 'train': self.train_metrics = m
-            else:              self.test_metrics  = m
-
-        self._td = {
-            'X_te': X_te, 'yp_te': yp_te, 'sd_te': sd_te,
-            'pred_te': self._phys(sd_te) + self.ml.predict(self.sc.transform(X_te)),
-            'X_tr': X_tr, 'yp_tr': yp_tr, 'sd_tr': sd_tr,
-            'pred_tr': self._phys(sd_tr) + self.ml.predict(self.sc.transform(X_tr)),
-        }
-        return self
-
-    def predict(self, X, sd):
-        return self._phys(sd) + self.ml.predict(self.sc.transform(X))
-
-    def save(self, path):
-        with open(path, 'wb') as f:
-            pickle.dump(self, f)
-        print(f'[SAVE]  {path}')
-
-    @staticmethod
-    def load(path):
-        with open(path, 'rb') as f:
-            return pickle.load(f)
+# HybridPPVModel is imported from model_utils.py — see import at top of file.
+# Defining it here would cause pickle module-path errors in part3_ui.py.
 
 
 # ══════════════════════════════════════════════════════════════════════════════
