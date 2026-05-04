@@ -133,8 +133,8 @@ st.markdown("""
 @st.cache_resource
 def load_model():
     """Load the saved hybrid model from Part 2."""
-    if not os.path.exists(MODEL_PATH):
-        return None
+    #if not os.path.exists(MODEL_PATH):
+        #return None
     try:
         with open(MODEL_PATH, 'rb') as f:
             return pickle.load(f)
