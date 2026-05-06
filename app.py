@@ -85,7 +85,7 @@ for d in ['results','models','credentials','plots']:
 # ─── STREAMLIT PAGE CONFIG ────────────────────────────────────────────────────
 st.set_page_config(
     page_title  = "PPV Predictor — IIT BHU Mining",
-    page_icon   = "💥",
+    #page_icon   = "💥",
     layout      = "wide",
     initial_sidebar_state = "expanded",
 )
@@ -410,7 +410,7 @@ with st.sidebar:
 
 st.markdown("""
 <div class="main-header">
-    <h1>💥 Blast-Induced PPV Prediction System</h1>
+    <h1>Blast-Induced PPV Prediction System</h1>
     <p>Autonomous ML Framework | Department of Mining Engineering ·
     IIT (BHU) Varanasi · B.Tech Project 2024–25</p>
 </div>
@@ -421,10 +421,10 @@ st.markdown("""
 # ═════════════════════════════════════════════════════════════════════════════
 
 tab1, tab2, tab3, tab4 = st.tabs([
-    "🎯 Predict PPV",
-    "📋 Log New Blast",
-    "📊 Live Monitor",
-    "🔬 Analytics"
+    "Predict PPV",
+    "Log New Blast",
+    "Live Monitor",
+    "Analytics"
 ])
 
 # ─────────────────────────────────────────────────────────────────────────────
