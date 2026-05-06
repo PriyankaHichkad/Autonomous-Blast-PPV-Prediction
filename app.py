@@ -358,7 +358,7 @@ with st.sidebar:
     model = load_model()
 
     if model:
-        st.success("✅ Hybrid model loaded")
+        st.success("Hybrid model loaded")
         if hasattr(model, 'k') and hasattr(model, 'n'):
             st.markdown(f"**Physics:** PPV = k × SD^n  \n"
                         f"k = `{model.k}` | n = `{model.n}`")
@@ -373,9 +373,9 @@ with st.sidebar:
 
     gsheet_client = get_gsheet_client()
     if gsheet_client:
-        st.success("✅ Google Sheets connected")
+        st.success("Google Sheets connected")
     else:
-        st.info("📄 Local CSV mode  \n(Add credentials.json for cloud)")
+        st.info("Local CSV mode  \n(Add credentials.json for cloud)")
 
     st.divider()
     df_log = load_blast_log()
@@ -392,10 +392,10 @@ with st.sidebar:
                 else:
                     st.error(msg)
     else:
-        st.success("✅ Model stable — no drift")
+        st.success("Model stable — no drift")
 
     st.divider()
-    st.markdown("### 📚 Reference")
+    st.markdown("### Reference")
     st.markdown("""
     **USBM Law** (Duvall & Fogelson, 1962)  
     PPV = k × (D/√Q)ⁿ  
@@ -632,7 +632,7 @@ with tab2:
         # Show confirmation
         col_a, col_b = st.columns(2)
         with col_a:
-            st.success(f"✅ Saved to local CSV ({len(df_updated)} total records)")
+            st.success(f"Saved to local CSV ({len(df_updated)} total records)")
             if gsheet_ok:
                 st.success("☁️ Saved to Google Sheets")
             else:
@@ -746,7 +746,7 @@ with tab3:
             Use the **Retrain Model** button in the sidebar to update the model.
             """)
         else:
-            st.success("✅ Model operating within normal error bounds — no drift detected.")
+            st.success("Model operating within normal error bounds — no drift detected.")
 
         # Actual vs predicted scatter
         if len(df_log) >= 5 and 'PPV_actual' in df_log.columns:
