@@ -3,42 +3,24 @@ TITLE: Autonomous-Blast-PPV-Prediction
 AUTHOR: Priyanka Rajeev Hichkad
 ---
 
-Autonomous hybrid machine learning framework for accurate prediction of blast-induced ground vibration (PPV) in surface mining operations.
-
-
-<div align="center">
-
-![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.4+-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.32+-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
-![Google Sheets](https://img.shields.io/badge/Google%20Sheets-API-34A853?style=for-the-badge&logo=googlesheets&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
-
-**An original research project conducted at the Department of Mining Engineering,  
-Indian Institute of Technology (BHU), Varanasi — 221 005, India**
-
-</div>
-
----
-
-> **⚠️ Original Research Declaration**  
-> This is a real-life, original research project — not a tutorial, template, or course assignment.  
+> **Research Declaration**  
+> This is a real-life, original research project — conducted at the Department of Mining Engineering, Indian Institute of Technology (BHU), Varanasi — 221 005, India.  
 > All field data was personally collected from **Bhanegaon Opencast Coal Mine**, Wardha Valley Coalfield, Maharashtra, India.  
 > The framework, models, synthetic data generation pipeline, and autonomous monitoring system were designed and implemented from scratch as part of a B.Tech final year project.
 
 ---
 
-## 👩‍🏫 Project Supervision
+## Project Supervision
 
 | Role | Name | Designation | Institution |
 |---|---|---|---|
 | **Principal Investigator** | Priyanka Rajeev Hichkad | B.Tech (Mining Engineering), Part III | IIT (BHU) Varanasi |
-| **Supervisor** | **Dr. Satyabrata Behera** | **Assistant Professor** | **Department of Mining Engineering, IIT (BHU) Varanasi** |
+| **Supervisor** | Dr. Satyabrata Behera | Assistant Professor | Department of Mining Engineering, IIT (BHU) Varanasi |
 | **Head of Department** | Prof. Rajesh Rai | Professor and Head | Department of Mining Engineering, IIT (BHU) Varanasi |
 
 ---
 
-## 📖 Overview
+## Overview
 
 Blasting is the primary method of rock fragmentation in surface coal mines. Every detonation generates seismic waves that propagate through the rock mass and are quantified as **Peak Particle Velocity (PPV)** in mm/s. Exceeding the safe PPV limit prescribed by **IS 6922 (1973)** poses risks of structural damage to nearby buildings and is a regulatory violation enforced by the **Directorate General of Mines Safety (DGMS), India**.
 
@@ -56,7 +38,7 @@ This project proposes and fully implements an **Autonomous Machine Learning Fram
 
 ---
 
-## 🏗️ Repository Structure
+## Repository Structure
 
 ```
 ppv-prediction/
@@ -108,7 +90,7 @@ ppv-prediction/
 
 ---
 
-## 🧪 Field Data
+## Field Data
 
 Data was collected personally from **Bhanegaon Opencast Coal Mine**, Wardha Valley Coalfield, Maharashtra, India over a one-month monitoring campaign (October–November 2025).
 
@@ -145,7 +127,7 @@ Data was collected personally from **Bhanegaon Opencast Coal Mine**, Wardha Vall
 
 ---
 
-## ⚙️ Methodology
+## Methodology
 
 ### Feature Engineering
 
@@ -207,7 +189,7 @@ The **Random Forest residual component** learns geological corrections not captu
 
 ---
 
-## 📊 Results
+## Results
 
 ### Nine-Model Benchmark (20% Independent Test Set, n = 129 records)
 
@@ -236,7 +218,7 @@ The **Random Forest residual component** learns geological corrections not captu
 
 ---
 
-## 🤖 Autonomous Monitoring System
+## Autonomous Monitoring System
 
 After every new blast record is submitted, the system:
 
@@ -250,7 +232,7 @@ This is the first implementation of an autonomous retraining system for blast vi
 
 ---
 
-## 🖥️ Streamlit Application
+## Streamlit Application
 
 The web application has four tabs:
 
@@ -263,7 +245,7 @@ The web application has four tabs:
 
 ---
 
-## 🚀 Installation and Usage
+## Installation and Usage
 
 ### 1. Clone the Repository
 
@@ -294,7 +276,7 @@ python part2_models.py
 
 Outputs: `models/hybrid_ppv_model.pkl`, `results/model_benchmark.csv`, model result figures in `plots/`
 
-> ⚠️ **Important:** Always run `part2_models.py` to generate the model file before launching the app.  
+> **Important:** Always run `part2_models.py` to generate the model file before launching the app.  
 > The model is saved using the `HybridPPVModel` class defined in `model_utils.py`.  
 > Both `part2_models.py` and `part3_ui.py` import from `model_utils.py` — this prevents pickle serialisation errors.
 
@@ -333,7 +315,7 @@ Without credentials, the app runs in local CSV-only mode — all core functional
 
 ---
 
-## 📦 Requirements
+## Requirements
 
 ```
 numpy>=1.24
@@ -355,7 +337,7 @@ pip install -r requirements.txt
 
 ---
 
-## ⚠️ Known Issue and Fix — Pickle Model Loading
+## Known Issue and Fix — Pickle Model Loading
 
 **Error:**
 ```
@@ -371,7 +353,7 @@ on <module '__main__' from 'part3_ui.py'>
 
 ---
 
-## 📚 References
+## References
 
 | Type | Reference |
 |---|---|
@@ -393,7 +375,7 @@ Full references are listed in the project report.
 
 ---
 
-## 📄 Citation
+## Citation
 
 If you use this work in your research, please cite:
 
@@ -414,7 +396,7 @@ If you use this work in your research, please cite:
 
 ---
 
-## 📬 Contact
+## Contact
 
 **Priyanka Rajeev Hichkad**  
 Roll No. 23155082 | B.Tech Part III (Mining Engineering)  
