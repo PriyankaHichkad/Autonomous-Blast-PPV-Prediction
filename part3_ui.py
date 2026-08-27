@@ -310,4 +310,4 @@ with tab4:
     """)
 
     if os.path.exists('plots/ewma_600_timeseries_eval.png'):
-        st.image('plots/ewma_600_timeseries_eval.png', caption='600-Blast Time-Series Out-of-Sample Evaluation Plot', use_column_width=True)
+        st.image('plots/ewma_600_timeseries_eval.png', caption='600-Blast Time-Series Out-of-Sample Evaluation Plot', use_container_width=True)
