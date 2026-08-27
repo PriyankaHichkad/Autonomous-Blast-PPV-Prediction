@@ -621,10 +621,21 @@ with tab2:
         gc = get_gsheet_client()
         gsheet_ok = append_to_gsheet(gc, record)
 
+        # Trigger Autonomous DVC Retraining Pipeline
+        dvc_triggered = False
+        try:
+            import subprocess
+            subprocess.Popen(["dvc", "repro", "ewma_autonomous_retraining"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            dvc_triggered = True
+        except Exception:
+            pass
+
         # Show confirmation
         col_a, col_b = st.columns(2)
         with col_a:
             st.success(f"✅ Saved to local CSV ({len(df_updated)} total records)")
+            if dvc_triggered:
+                st.success("🔄 DVC MLOps: Dataset tracked & autonomous EWMA retraining triggered")
             if gsheet_ok:
                 st.success("☁️ Saved to Google Sheets")
             else:

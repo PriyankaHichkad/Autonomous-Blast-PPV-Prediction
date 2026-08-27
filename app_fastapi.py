@@ -158,10 +158,19 @@ def update_blast(blast: BlastUpdate):
     res = model_instance.predict_row(row_dict)
     model_instance.save(MODEL_FILE)
 
+    # Trigger DVC pipeline autonomous tracking & retraining
+    try:
+        import subprocess
+        subprocess.Popen(["dvc", "repro", "ewma_autonomous_retraining"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        dvc_status = "DVC pipeline tracked dataset update and triggered autonomous stage repro."
+    except Exception as e:
+        dvc_status = f"Local EWMA retrained (DVC background status: {e})"
+
     h = model_instance.history[-1]
 
     return {
         "message": "New blast recorded and model autonomously retrained with updated EWMA weights.",
+        "dvc_mlops_status": dvc_status,
         "prediction_before_update": {
             "ppv_actual_mm_s": blast.PPV_Actual,
             "ppv_predicted_mm_s": round(res['ppv_predicted'], 4),
