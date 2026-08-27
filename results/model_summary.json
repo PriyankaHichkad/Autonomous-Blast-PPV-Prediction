@@ -1,0 +1,41 @@
+{
+  "physics": {
+    "k": 650.0,
+    "n": -1.4,
+    "r2": -0.49425880679661827,
+    "note": "k and n are ALWAYS non-zero literature constants"
+  },
+  "test_metrics": {
+    "R2": 0.6389968778375885,
+    "MAE": 0.5693573951893075,
+    "RMSE": 1.277192193140707,
+    "MAPE": 22.947598386158884,
+    "Model": "M15 Hybrid GBR (Proposed)"
+  },
+  "train_metrics": {
+    "R2": 0.9634407608447708,
+    "MAE": 0.25505686553397183,
+    "RMSE": 0.32456942676175954,
+    "MAPE": 16.140792530168614
+  },
+  "features": [
+    "Distance",
+    "Q",
+    "No_of_Holes",
+    "Depth",
+    "TQ",
+    "SD",
+    "SD_TQ",
+    "No_of_Rows",
+    "Spacing",
+    "log_SD",
+    "log_D",
+    "log_Q",
+    "log_TQ",
+    "log_N",
+    "log_Depth"
+  ],
+  "n_real": 44,
+  "n_synthetic": 600,
+  "n_combined": 644
+}
