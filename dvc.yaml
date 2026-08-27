@@ -24,7 +24,7 @@ stages:
       - model_utils.py
     outs:
       - models/hybrid_ppv_model.pkl
-      - results/combined_real_fake.csv
+      - results/combined_with_synthetic.csv
       - results/model_benchmark.csv
     metrics:
       - results/model_summary.json:

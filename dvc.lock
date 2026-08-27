@@ -1,0 +1,90 @@
+schema: '2.0'
+stages:
+  feature_engineering:
+    cmd: python eda.py
+    deps:
+    - path: eda.py
+      hash: md5
+      md5: c4093851240b946c1146d6e7794f3d3c
+      size: 34385
+    - path: raw_data/Bhanegaon Excel.xlsx
+      hash: md5
+      md5: 1799dafab128501243203be8ce34fa79
+      size: 76331
+    outs:
+    - path: results/real_field_data.csv
+      hash: md5
+      md5: 9af3ede2c44db4dc1a0b46fcad7cc932
+      size: 12991
+    - path: results/univariate_correlation.csv
+      hash: md5
+      md5: 624f3592fb0f206379ef11283ea91f86
+      size: 566
+  model_training:
+    cmd: python part2_models.py
+    deps:
+    - path: model_utils.py
+      hash: md5
+      md5: 676341fb845feadcadf98ae9625252e6
+      size: 10707
+    - path: part2_models.py
+      hash: md5
+      md5: 5eaea934da0ef0d1c5d01f23521b605b
+      size: 42140
+    - path: results/real_field_data.csv
+      hash: md5
+      md5: 9af3ede2c44db4dc1a0b46fcad7cc932
+      size: 12991
+    outs:
+    - path: models/hybrid_ppv_model.pkl
+      hash: md5
+      md5: 0d3949764c6995820d9ed4aa62032882
+      size: 470366
+    - path: results/combined_with_synthetic.csv
+      hash: md5
+      md5: 707e7e936e5c88fdf9c842aea578749b
+      size: 242510
+    - path: results/model_benchmark.csv
+      hash: md5
+      md5: d44480b7e6fde46a5bc5aafb5c70fcda
+      size: 1390
+    - path: results/model_summary.json
+      hash: md5
+      md5: 883b744dedd40330b24ac4bf42c5eeaf
+      size: 776
+  ewma_autonomous_retraining:
+    cmd: python ewma.py
+    deps:
+    - path: ewma.py
+      hash: md5
+      md5: 66d130c7bde8debfee93c465af88b35c
+      size: 54706
+    - path: model_utils.py
+      hash: md5
+      md5: 676341fb845feadcadf98ae9625252e6
+      size: 10707
+    - path: results/real_field_data.csv
+      hash: md5
+      md5: 9af3ede2c44db4dc1a0b46fcad7cc932
+      size: 12991
+    outs:
+    - path: models/ewma_hybrid_model.pkl
+      hash: md5
+      md5: d59ab37931c8550f5785d565cab6b4f5
+      size: 558831
+    - path: plots/ewma_weight_vs_error.png
+      hash: md5
+      md5: ec7707ea870f97eab0d6b679d98676cc
+      size: 207247
+    - path: plots/ewma_weights.png
+      hash: md5
+      md5: 98bf5a7b4bde4e26d72a4fc4eca556cc
+      size: 266071
+    - path: results/ewma_predictions_with_inputs.csv
+      hash: md5
+      md5: 5e1fde9ca7a87969e48a476af8794bad
+      size: 9393
+    - path: results/ewma_sequential_eval.csv
+      hash: md5
+      md5: 81acedbf1b5f96233610ec1e1b88ec77
+      size: 2080
