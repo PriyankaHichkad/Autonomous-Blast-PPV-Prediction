@@ -532,9 +532,13 @@ class EWMAHybridModel:
 
         return {
             'ppv_predicted': round(ppv_q, 4),
+            'physics_ppv'  : round(650.0 * (sd_q ** -1.4), 4),
             'SD'           : round(sd_q, 3),
-            'TQ'           : round(float(df_q['TQ'].iloc[0]), 1),
+            'log_ppv_pred' : round(log_ppv_q, 4),
         }
+
+    def predict_custom(self, query: dict) -> dict:
+        return self.predict_only(query)
 
     # ── Feature importance ────────────────────────────────────────────────────
     def feature_importance(self) -> pd.DataFrame:

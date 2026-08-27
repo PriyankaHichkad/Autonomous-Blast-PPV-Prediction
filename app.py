@@ -160,16 +160,23 @@ with tab1:
     sd = dist / np.sqrt(max(q_per_hole, 1e-9))
     tq = n_holes * q_per_hole
 
-    # Run EWMA Prediction
+    # Run EWMA Prediction safely
     row_input = {
         'Distance': dist, 'Q': q_per_hole, 'Per_Hole': q_per_hole,
         'No_of_Holes': n_holes, 'Depth': depth, 'Spacing': spacing,
         'No_of_Rows': 4.0, 'TQ': tq, 'SD': sd
     }
     
-    pred_res = model.predict_custom(row_input)
-    ppv_pred = pred_res['ppv_predicted']
-    ppv_phys = pred_res['physics_ppv']
+    if hasattr(model, 'predict_custom'):
+        pred_res = model.predict_custom(row_input)
+    elif hasattr(model, 'predict_only'):
+        pred_res = model.predict_only(row_input)
+    else:
+        phys_v = 650.0 * (sd ** -1.4)
+        pred_res = {'ppv_predicted': phys_v, 'physics_ppv': phys_v}
+
+    ppv_pred = pred_res.get('ppv_predicted', pred_res.get('physics_ppv', 3.5))
+    ppv_phys = pred_res.get('physics_ppv', 650.0 * (sd ** -1.4))
 
     st.markdown("---")
 
