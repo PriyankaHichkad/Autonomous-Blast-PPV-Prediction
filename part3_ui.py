@@ -77,7 +77,7 @@ MODEL_PATH     = 'models/hybrid_ppv_model.pkl'
 BENCH_PATH     = 'results/model_benchmark.csv'
 GSHEET_CREDS_PATH = 'credentials/awesome-dialect-489311-u7-b7e39b74b42b.json'  # service account JSON
 GSHEET_ID      = '1L7OHqkcHXqNprEslSLPSZYjfqljc06FO1qhB4WvJvgs'               # replace with real ID
-GSHEET_TAB     = 'sheet1'
+GSHEET_TAB     = 'BlastLog'
 
 for d in ['results','models','credentials','plots']:
     os.makedirs(d, exist_ok=True)
@@ -349,7 +349,7 @@ with st.sidebar:
     st.markdown("### ⚙️ System Status")
     model = load_model()
 
-    if model:
+    if model is not None:
         st.success("✅ Hybrid model loaded")
         if hasattr(model, 'k') and hasattr(model, 'n'):
             st.markdown(f"**Physics:** PPV = k × SD^n  \n"

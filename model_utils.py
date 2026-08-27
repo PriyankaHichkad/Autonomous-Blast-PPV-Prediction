@@ -32,7 +32,7 @@ import sys
 import pickle
 import numpy as np
 from sklearn.preprocessing import StandardScaler
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.model_selection import train_test_split, KFold, GridSearchCV
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
@@ -43,18 +43,18 @@ N_LIT = -1.4    # attenuation exponent (Indian coal mines: −1.2 to −1.6)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-#  HYBRID PPV MODEL
+#  HYBRID PPV MODEL (HYBRID GBR)
 # ══════════════════════════════════════════════════════════════════════════════
 
 class HybridPPVModel:
     """
-    Physics-Informed Hybrid Random Forest Model.
+    Physics-Informed Hybrid Gradient Boosting (Hybrid GBR) Model.
 
     Architecture
     ─────────────
     PPV_physics = k × SD^n                 [USBM power law, Eq. 3.1]
     Residual    = PPV_actual − PPV_physics  [geological correction, Eq. 3.2]
-    PPV_final   = PPV_physics + RF(X)      [hybrid prediction, Eq. 3.3]
+    PPV_final   = PPV_physics + GBR(X)     [hybrid prediction, Eq. 3.3]
 
     k = 650, n = −1.4  (Pal Roy 1993 — Wardha Valley coalfield, India)
     Both k and n are ALWAYS non-zero by physical law.
@@ -66,7 +66,7 @@ class HybridPPVModel:
     def __init__(self):
         self.k             = K_LIT    # site constant, always non-zero
         self.n             = N_LIT    # attenuation exponent, always non-zero
-        self.ml            = None     # RandomForestRegressor (residual learner)
+        self.ml            = None     # GradientBoostingRegressor (residual learner)
         self.sc            = StandardScaler()
         self.feat_cols     = []
         self.is_fitted     = False
@@ -83,7 +83,7 @@ class HybridPPVModel:
     # ── Training ──────────────────────────────────────────────────────────────
     def fit(self, df_combined, feature_cols, test_size=0.2):
         """
-        Train the RF residual model.
+        Train the GBR residual model.
         Prints train/test metrics.
         """
         avail = [c for c in feature_cols if c in df_combined.columns]
@@ -105,14 +105,15 @@ class HybridPPVModel:
             train_test_split(X, y_r, y_p, sd_v,
                              test_size=test_size, random_state=42)
 
-        # GridSearchCV on RF residual learner
-        print("    GridSearchCV: tuning Hybrid RF residual model …")
+        # GridSearchCV on GBR residual learner
+        print("    GridSearchCV: tuning Hybrid GBR residual model …")
         kf = KFold(n_splits=5, shuffle=True, random_state=42)
         gs = GridSearchCV(
-            RandomForestRegressor(random_state=42, n_jobs=-1),
-            {'n_estimators'    : [200, 400],
-             'max_depth'       : [8, 12, None],
-             'min_samples_leaf': [1, 2]},
+            GradientBoostingRegressor(random_state=42),
+            {'n_estimators'    : [100, 200, 300],
+             'learning_rate'   : [0.03, 0.05, 0.1],
+             'max_depth'       : [3, 4, 5],
+             'subsample'       : [0.8, 1.0]},
             cv=kf, scoring='r2', n_jobs=-1, refit=True,
         )
         gs.fit(self.sc.fit_transform(X_tr), yr_tr)

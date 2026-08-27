@@ -6,17 +6,16 @@
     "note": "k and n are ALWAYS non-zero literature constants"
   },
   "test_metrics": {
-    "Model": "M15 Hybrid RF (Proposed)",
     "R2": 0.6476762933210041,
     "MAE": 0.5741836998539136,
     "RMSE": 1.2617453400827632,
-    "MAPE": 23.868899943600418
+    "MAPE": 23.868899943600415,
+    "Model": "M15 Hybrid RF (Proposed)"
   },
   "train_metrics": {
-    "Model": "Hybrid RF [train]",
     "R2": 0.9356181353092031,
     "MAE": 0.2830182742691253,
-    "RMSE": 0.4307158061345443,
+    "RMSE": 0.43071580613454435,
     "MAPE": 16.027944919435804
   },
   "features": [

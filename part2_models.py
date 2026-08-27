@@ -74,7 +74,7 @@ C = ['#1B4F72','#E74C3C','#27AE60','#F39C12','#8E44AD','#2E86C1','#117A65',
 
 # Site constants — ALWAYS non-zero, from literature
 K_LIT = 650.0    # site transmission constant (Pal Roy, 1993; Wardha Valley)
-N_LIT = -1.4     # attenuation exponent (range: -1.2 to -1.6, Indian coal mines)
+N_LIT = -1.4    # attenuation exponent (range: -1.2 to -1.6, Indian coal mines)
 
 # ── Import HybridPPVModel from model_utils (NOT defined here) ─────────────────
 # This guarantees pickle always records the class as 'model_utils.HybridPPVModel',
@@ -303,6 +303,7 @@ def generate_synthetic(df_real, n_syn=600):
     plt.savefig('plots/Fig4_2_synthetic_distribution.png')
     plt.close()
     print('[PLOT]  Fig4_2_synthetic_distribution.png')
+    #return df_real
     return combined
 
 
@@ -611,11 +612,11 @@ def train_all_models(df_combined, feature_cols):
         print(f"    Fuzzy model warning: {e}")
 
     # ── M15: Hybrid (Proposed) ─────────────────────────────────────────────
-    print("  Training M15: Hybrid Physics+RF (Proposed)...")
+    print("  Training M15: Hybrid Physics+GBR (Proposed)...")
     hybrid = HybridPPVModel()
     hybrid.fit(df_combined, feature_cols)
-    results['M15 Hybrid RF (Proposed)'] = hybrid.test_metrics
-    results['M15 Hybrid RF (Proposed)']['Model'] = 'M15 Hybrid RF (Proposed)'
+    results['M15 Hybrid GBR (Proposed)'] = hybrid.test_metrics
+    results['M15 Hybrid GBR (Proposed)']['Model'] = 'M15 Hybrid GBR (Proposed)'
 
     # Summary
     bench = pd.DataFrame(results).T[['R2','MAE','RMSE','MAPE']].round(4)

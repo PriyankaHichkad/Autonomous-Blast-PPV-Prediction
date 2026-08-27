@@ -1,0 +1,44 @@
+# ================================================================================
+#  DVC (DATA VERSION CONTROL) PIPELINE FOR BLAST VIBRATION MLOPS
+# ================================================================================
+#  Project   : Autonomous ML Framework for Blast-Induced Ground Vibration
+#  Institute : IIT (BHU) Varanasi | Department of Mining Engineering
+#  Usage     : dvc repro
+# ================================================================================
+
+stages:
+  feature_engineering:
+    cmd: python eda.py
+    deps:
+      - raw_data/Bhanegaon Excel.xlsx
+      - eda.py
+    outs:
+      - results/real_field_data.csv
+      - results/univariate_correlation.csv
+
+  model_training:
+    cmd: python part2_models.py
+    deps:
+      - results/real_field_data.csv
+      - part2_models.py
+      - model_utils.py
+    outs:
+      - models/hybrid_ppv_model.pkl
+      - results/combined_real_fake.csv
+      - results/model_benchmark.csv
+    metrics:
+      - results/model_summary.json:
+          cache: false
+
+  ewma_autonomous_retraining:
+    cmd: python ewma.py
+    deps:
+      - results/real_field_data.csv
+      - ewma.py
+      - model_utils.py
+    outs:
+      - models/ewma_hybrid_model.pkl
+      - results/ewma_predictions_with_inputs.csv
+      - results/ewma_sequential_eval.csv
+      - plots/ewma_weights.png
+      - plots/ewma_weight_vs_error.png

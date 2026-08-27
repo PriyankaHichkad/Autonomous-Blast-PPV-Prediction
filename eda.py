@@ -264,12 +264,12 @@ def engineer_features(df):
     df = df.copy()
 
     # Core physics features
-    df['Q']        = df['Per_Hole']
+    df['Stemming'] = df['Depth'] * (2/3)
+    df['Ch_length']= df['Depth'] * (1/3)
+    df['Q']        = df['Per_Hole'] # * df['Ch_length'] * 0.0176625 * 1.125
     df['TQ']       = df['No_of_Holes'] * df['Q']
     df['SD']       = df['Distance'] / np.sqrt(df['Q'].clip(lower=1e-9))
     df['SD_TQ']    = df['Distance'] / np.sqrt(df['TQ'].clip(lower=1e-9))
-    df['Stemming'] = df['Depth'] * (2/3)
-    df['Ch_length']= df['Depth'] * (1/3)
 
     # Log-space features (needed because PPV follows power law)
     for feat, src in [
@@ -663,6 +663,7 @@ if __name__ == '__main__':
 
     # Combine
     df_combined = pd.concat([df_real, df_fake], ignore_index=True)
+    #df_combined = df_real
     print_dataset_summary(df_combined, "(Real + Fake Combined)")
 
     # EDA plots on real data
